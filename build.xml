@@ -1,4 +1,4 @@
-<project name="HeadFirstJavaVol3Notes" default="build" basedir=".">
+<project name="HeadFirstJavaVol3Notes" default="help" basedir=".">
 
     <!-- Define properties for directories -->
     <property name="src.dir" value="src"/>
@@ -12,13 +12,11 @@
         <mkdir dir="${jar.dir}"/>
     </target>
 
-    <!-- Clean the build directory -->
-    <target name="clean">
+    <target name="clean" description="Clean build directory">
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Compile the quizgame package -->
-    <target name="compile" depends="init">
+    <target name="compile" description="Compile the quizgame package" depends="init">
         <javac srcdir="${src.dir}/quizgame" destdir="${classes.dir}" includeantruntime="false"/>
     </target>
 
@@ -38,21 +36,29 @@
 
     <!-- Targets to build and run each app -->
 
-    <target name="build-quizcardbuilder" depends="clean,compile">
+    <target name="build-quizcardbuilder" description="Build the Quiz Card Builder app" depends="clean,compile">
         <create-jar classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
     </target>
-    <target name="run-quizcardbuilder" depends="build-quizcardbuilder">
+    <target name="run-quizcardbuilder" description="Run the Quiz Card Builder app" depends="build-quizcardbuilder">
         <java jar="${jar.dir}/QuizCardBuilder.jar" fork="true"/>
     </target>
 
-    <target name="build-quizcardplayer" depends="clean,compile">
+    <target name="build-quizcardplayer" description="Build the Quiz Card Player app" depends="clean,compile">
         <create-jar classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
     </target>
-    <target name="run-quizcardplayer" depends="build-quizcardplayer">
+    <target name="run-quizcardplayer" description="Run the Quiz Card Builder app" depends="build-quizcardplayer">
         <java jar="${jar.dir}/QuizCardPlayer.jar" fork="true"/>
     </target>
 
     <!-- Default build target to build both JARs -->
-    <target name="build" depends="build-quizcardbuilder,build-quizcardplayer"/>
+    <target name="build" description="Build everything" depends="build-quizcardbuilder,build-quizcardplayer"/>
+
+    <!-- Help message -->
+    <target name="help" description="Display available tasks">
+        <exec executable="ant" failonerror="true">
+            <arg value="-projecthelp"/>
+        </exec>
+    </target>
+
 
 </project>
