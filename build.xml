@@ -1,14 +1,16 @@
 <!-- Generated with the help of ChatGPT -->
 
-<project name="QuizCardBuilder" default="build" basedir=".">
+<project name="HeadFirstJavaVol3Notes" default="build" basedir=".">
 
     <!-- Define properties for directories -->
     <property name="src.dir" value="src"/>
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir" value="${build.dir}/jars"/>
-    <property name="jar.name" value="QuizCardBuilder.jar"/>
-    <property name="main.class" value="quizcardbuilder.QuizCardBuilder"/>
+
+    <!-- Properties for quizcardbuilder package -->
+    <property name="jar.name_quizcardbuilder" value="QuizCardBuilder.jar"/>
+    <property name="main.class_quizcardbuilder" value="quizcardbuilder.QuizCardBuilder"/>
 
     <!-- Initialize directory structure -->
     <target name="init">
@@ -20,26 +22,26 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Compile Java source files -->
-    <target name="compile" depends="init">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false"/>
+    <!-- Compile quiz card builder -->
+    <target name="compile_quizcardbuilder" depends="init">
+        <javac srcdir="${src.dir}/quizcardbuilder" destdir="${classes.dir}" includeantruntime="false"/>
     </target>
 
-    <!-- Build the JAR file -->
-    <target name="jar" depends="compile">
-        <jar destfile="${jar.dir}/${jar.name}" basedir="${classes.dir}" includes="**/*.class">
+    <!-- Build the JAR for the quiz card builder -->
+    <target name="jar_quizcardbuilder" depends="compile_quizcardbuilder">
+        <jar destfile="${jar.dir}/${jar.name_quizcardbuilder}" basedir="${classes.dir}" includes="**/*.class">
             <manifest>
-                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Main-Class" value="${main.class_quizcardbuilder}"/>
             </manifest>
         </jar>
     </target>
 
     <!-- Default build target -->
-    <target name="build" depends="clean,jar"/>
+    <target name="build" depends="clean,jar_quizcardbuilder"/>
 
     <!-- Run the application -->
-    <target name="run" depends="jar">
-        <java jar="${jar.dir}/${jar.name}" fork="true"/>
+    <target name="run_quizcardbuilder" depends="jar_quizcardbuilder">
+        <java jar="${jar.dir}/${jar.name_quizcardbuilder}" fork="true"/>
     </target>
 
 </project>
