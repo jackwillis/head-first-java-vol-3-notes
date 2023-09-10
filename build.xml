@@ -26,7 +26,7 @@
         <attribute name="jarname"/>
         <sequential>
             <jar destfile="${jar.dir}/@{jarname}.jar" basedir="${classes.dir}">
-                <include name="quizgame/@{classname}.class"/>
+                <include name="quizgame/*.class"/>
                 <manifest>
                     <attribute name="Main-Class" value="quizgame.@{classname}"/>
                 </manifest>
