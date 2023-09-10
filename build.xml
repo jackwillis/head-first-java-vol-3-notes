@@ -38,14 +38,14 @@
 
     <!-- Targets to build and run each app -->
 
-    <target name="build-quizcardbuilder" depends="compile">
+    <target name="build-quizcardbuilder" depends="clean,compile">
         <create-jar classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
     </target>
     <target name="run-quizcardbuilder" depends="build-quizcardbuilder">
         <java jar="${jar.dir}/QuizCardBuilder.jar" fork="true"/>
     </target>
 
-    <target name="build-quizcardplayer" depends="compile">
+    <target name="build-quizcardplayer" depends="clean,compile">
         <create-jar classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
     </target>
     <target name="run-quizcardplayer" depends="build-quizcardplayer">
@@ -53,6 +53,6 @@
     </target>
 
     <!-- Default build target to build both JARs -->
-    <target name="build" depends="clean,build-quizcardbuilder,build-quizcardplayer"/>
+    <target name="build" depends="build-quizcardbuilder,build-quizcardplayer"/>
 
 </project>
