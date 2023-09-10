@@ -71,11 +71,30 @@ public class QuizCardPlayer {
         // if this is a question, show the answer, otherwise show
         // next question set a flag for whether we’re viewing a
         // question or answer
+
+        if (isShowAnswer) {
+            // show the answer because they've seen the question
+            display.setText(currentCard.getAnswer());
+            nextButton.setText("Next Card");
+            isShowAnswer = false;
+        } else { // show the next question
+            if (currentCardIndex < cardList.size()) {
+                showNextCard();
+            } else {
+                // there are no more cards
+                display.setText("That was the last card.");
+                nextButton.setEnabled(false);
+            }
+        }
     }
 
     private void open() {
         // bring up a file dialog box
         // let the user navigate to and choose a card set to open
+
+        var fileOpen = new JFileChooser();
+        fileOpen.showOpenDialog(frame);
+        loadFile(fileOpen.getSelectedFile());
     }
 
     private void loadFile(File file) {
@@ -84,11 +103,51 @@ public class QuizCardPlayer {
         // reads the file one line at a time and tells the makeCard()
         // method to make a new card out of the line (one line in the
         // file holds both the question and answer, separated by a “/”)
+
+        cardList = new ArrayList<>();
+        currentCardIndex = 0;
+
+        try {
+            var reader = new BufferedReader(new FileReader(file));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                makeCard(line);
+            }
+
+            reader.close();
+        }
+        catch (IOException exception) {
+            System.err.println(
+                "Couldn't write the card list out: " +
+                exception.getMessage()
+            );
+        }
+
+        showNextCard();
     }
 
     private void makeCard(String lineToParse) {
         // called by the loadFile method, takes a line from the text file
         // and parses into two pieces—question and answer—and creates a
         // new QuizCard and adds it to the ArrayList called CardList
+
+        String[] result = lineToParse.split("/");
+        String question = result[0];
+        String answer = result[1];
+        var card = new QuizCard(question, answer);
+
+        cardList.add(card);
+
+        System.out.println("Made a card.");
+    }
+
+    private void showNextCard() {
+        currentCard = cardList.get(currentCardIndex);
+        currentCardIndex++;
+
+        display.setText(currentCard.getQuestion());
+        nextButton.setText("Show Answer");
+        isShowAnswer = false;
     }
 }

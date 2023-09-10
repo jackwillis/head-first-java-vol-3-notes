@@ -22,13 +22,14 @@
 
     <!-- Create individual JAR files -->
     <macrodef name="create-jar">
+        <attribute name="projectname"/>
         <attribute name="classname"/>
         <attribute name="jarname"/>
         <sequential>
             <jar destfile="${jar.dir}/@{jarname}.jar" basedir="${classes.dir}">
-                <include name="quizgame/*.class"/>
+                <include name="@{projectname}/*.class"/>
                 <manifest>
-                    <attribute name="Main-Class" value="quizgame.@{classname}"/>
+                    <attribute name="Main-Class" value="@{projectname}.@{classname}"/>
                 </manifest>
             </jar>
         </sequential>
@@ -37,14 +38,14 @@
     <!-- Targets to build and run each app -->
 
     <target name="build-quizcardbuilder" description="Build the Quiz Card Builder app" depends="clean,compile">
-        <create-jar classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
+        <create-jar projectname="quizgame" classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
     </target>
     <target name="run-quizcardbuilder" description="Run the Quiz Card Builder app" depends="build-quizcardbuilder">
         <java jar="${jar.dir}/QuizCardBuilder.jar" fork="true"/>
     </target>
 
     <target name="build-quizcardplayer" description="Build the Quiz Card Player app" depends="clean,compile">
-        <create-jar classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
+        <create-jar projectname="quizgame" classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
     </target>
     <target name="run-quizcardplayer" description="Run the Quiz Card Builder app" depends="build-quizcardplayer">
         <java jar="${jar.dir}/QuizCardPlayer.jar" fork="true"/>
