@@ -1,6 +1,22 @@
 package quizgame;
 
+import java.awt.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
+
 public class QuizCardPlayer {
+    private ArrayList<QuizCard> cardList;
+    private int currentCardIndex;
+    private QuizCard currentCard;
+    private JTextArea display;
+    private JFrame frame;
+    private JButton nextButton;
+    private boolean isShowAnswer;
+
+    public static void main(String[] args) {
+        new QuizCardPlayer().go();
+    }
 
     public void go() {
         // build and display gui
