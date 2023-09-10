@@ -139,7 +139,7 @@ public class QuizCardPlayer {
 
         cardList.add(card);
 
-        System.out.println("Made a card.");
+        System.out.println("Made a card: " + card);
     }
 
     private void showNextCard() {

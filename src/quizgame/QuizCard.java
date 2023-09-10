@@ -19,4 +19,8 @@ public class QuizCard {
     public String getAnswer() {
         return answer;
     }
+
+    public String toString() {
+        return "QuizCard(\"" + question + "\", \"" + answer + "\")";
+    }
 }
