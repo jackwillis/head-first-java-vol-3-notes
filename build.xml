@@ -6,9 +6,6 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir" value="${build.dir}/jars"/>
 
-    <!-- Default build target -->
-    <target name="build" depends="clean,build-quizcardbuilder,build-quizcardplayer"/>
-
     <!-- Initialize directory structure -->
     <target name="init">
         <mkdir dir="${classes.dir}"/>
@@ -19,8 +16,7 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Define a macro for compile-jar-run pattern -->
-
+    <!-- Define a macro for compile-jar pattern -->
     <macrodef name="package-task">
         <attribute name="packagename"/>
         <attribute name="mainclass"/>
@@ -36,22 +32,31 @@
         </sequential>
     </macrodef>
 
-    <!-- Generate targets for BUILDER -->
+    <!-- Define a macro for run pattern -->
+    <macrodef name="run-task">
+        <attribute name="packagename"/>
+        <sequential>
+            <java jar="${jar.dir}/@{packagename}.jar" fork="true"/>
+        </sequential>
+    </macrodef>
 
+    <!-- Targets for BUILDER -->
     <target name="build-quizcardbuilder" depends="init">
         <package-task packagename="quizcardbuilder" mainclass="QuizCardBuilder"/>
     </target>
     <target name="run-quizcardbuilder" depends="build-quizcardbuilder">
-        <java jar="${jar.dir}/quizcardbuilder.jar" fork="true"/>
+        <run-task packagename="quizcardbuilder"/>
     </target>
 
-    <!-- Generate targets for PLAYER -->
-
+    <!-- Targets for PLAYER -->
     <target name="build-quizcardplayer" depends="init">
         <package-task packagename="quizcardplayer" mainclass="QuizCardPlayer"/>
     </target>
     <target name="run-quizcardplayer" depends="build-quizcardplayer">
-        <java jar="${jar.dir}/quizcardplayer.jar" fork="true"/>
+        <run-task packagename="quizcardplayer"/>
     </target>
+
+    <!-- Default build target -->
+    <target name="build" depends="clean,build-quizcardbuilder,build-quizcardplayer"/>
 
 </project>
