@@ -83,23 +83,66 @@ public class QuizCardBuilder {
         return textArea;
     }
 
+    private QuizCard getCurrentCard() {
+        return new QuizCard(
+            question.getText(),
+            answer.getText()
+        );
+    }
+
     private void nextCard() {
         // add the current card to the list
         // and clear the text areas
+
+        var card = getCurrentCard();
+        cardList.add(card);
+        clearCard();
     }
 
     private void saveCard() {
         // bring up a file dialog box
         // let the user name and save the set
+
+        var card = getCurrentCard();
+        cardList.add(card);
+
+        var fileSave = new JFileChooser();
+        fileSave.showSaveDialog(frame);
+        saveFile(fileSave.getSelectedFile());
     }
 
     private void clearAll() {
+        cardList.clear();
+        clearCard();
+    }
 
+    private void clearCard() {
+        question.setText("");
+        answer.setText("");
+
+        question.requestFocus();
     }
 
     private void saveFile(File file) {
         // iterate through the list of cards and write
         // each one out to a text file in a parseable way
         // (in other words, with clear separations between parts)
+
+        try {
+            var writer = new BufferedWriter(new FileWriter(file));
+
+            for (var card : cardList) {
+                writer.write(card.getQuestion() + "/");
+                writer.write(card.getAnswer() + "\n");
+            }
+
+            writer.close();
+        }
+        catch (IOException exception) {
+            System.err.println(
+                "Couldn't write the cardList: " +
+                exception.getMessage()
+            );
+        }
     }
 }
