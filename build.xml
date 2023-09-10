@@ -9,6 +9,7 @@
     <!-- Initialize directory structure -->
     <target name="init">
         <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${jar.dir}"/>
     </target>
 
     <!-- Clean the build directory -->
@@ -16,47 +17,42 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <!-- Define a macro for compile-jar pattern -->
-    <macrodef name="package-task">
-        <attribute name="packagename"/>
-        <attribute name="mainclass"/>
+    <!-- Compile the quizgame package -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}/quizgame" destdir="${classes.dir}" includeantruntime="false"/>
+    </target>
+
+    <!-- Create individual JAR files -->
+    <macrodef name="create-jar">
+        <attribute name="classname"/>
+        <attribute name="jarname"/>
         <sequential>
-            <!-- Compile -->
-            <javac srcdir="${src.dir}/@{packagename}" destdir="${classes.dir}" includeantruntime="false"/>
-            <!-- Jar -->
-            <jar destfile="${jar.dir}/@{packagename}.jar" basedir="${classes.dir}" includes="**/*.class">
+            <jar destfile="${jar.dir}/@{jarname}.jar" basedir="${classes.dir}">
+                <include name="quizgame/@{classname}.class"/>
                 <manifest>
-                    <attribute name="Main-Class" value="@{packagename}.@{mainclass}"/>
+                    <attribute name="Main-Class" value="quizgame.@{classname}"/>
                 </manifest>
             </jar>
         </sequential>
     </macrodef>
 
-    <!-- Define a macro for run pattern -->
-    <macrodef name="run-task">
-        <attribute name="packagename"/>
-        <sequential>
-            <java jar="${jar.dir}/@{packagename}.jar" fork="true"/>
-        </sequential>
-    </macrodef>
+    <!-- Targets to build and run each app -->
 
-    <!-- Targets for BUILDER -->
-    <target name="build-quizcardbuilder" depends="init">
-        <package-task packagename="quizcardbuilder" mainclass="QuizCardBuilder"/>
+    <target name="build-quizcardbuilder" depends="compile">
+        <create-jar classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
     </target>
     <target name="run-quizcardbuilder" depends="build-quizcardbuilder">
-        <run-task packagename="quizcardbuilder"/>
+        <java jar="${jar.dir}/QuizCardBuilder.jar" fork="true"/>
     </target>
 
-    <!-- Targets for PLAYER -->
-    <target name="build-quizcardplayer" depends="init">
-        <package-task packagename="quizcardplayer" mainclass="QuizCardPlayer"/>
+    <target name="build-quizcardplayer" depends="compile">
+        <create-jar classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
     </target>
     <target name="run-quizcardplayer" depends="build-quizcardplayer">
-        <run-task packagename="quizcardplayer"/>
+        <java jar="${jar.dir}/QuizCardPlayer.jar" fork="true"/>
     </target>
 
-    <!-- Default build target -->
+    <!-- Default build target to build both JARs -->
     <target name="build" depends="clean,build-quizcardbuilder,build-quizcardplayer"/>
 
 </project>

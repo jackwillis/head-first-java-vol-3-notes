@@ -1,4 +1,4 @@
-package quizcardbuilder;
+package quizgame;
 
 import java.awt.*;
 import java.io.*;

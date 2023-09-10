@@ -1,4 +1,4 @@
-package quizcardplayer;
+package quizgame;
 
 public class QuizCardPlayer {
 

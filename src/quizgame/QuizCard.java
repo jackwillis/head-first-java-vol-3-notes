@@ -1,4 +1,4 @@
-package quizcardbuilder;
+package quizgame;
 
 /**
  * Represents a quiz card, which has a question and answer.
