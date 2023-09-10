@@ -148,6 +148,6 @@ public class QuizCardPlayer {
 
         display.setText(currentCard.getQuestion());
         nextButton.setText("Show Answer");
-        isShowAnswer = false;
+        isShowAnswer = true;
     }
 }
