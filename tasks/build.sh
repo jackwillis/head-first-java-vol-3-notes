@@ -10,4 +10,11 @@ $(dirname $0)/clean.sh
 
 set -x
 
-javac -d build/classes/ src/**/*.java
+# Compile
+javac -d build/classes/ src/quizcardbuilder/*.java
+
+# Build jar
+
+cd build/classes/
+jar cvfe ../QuizCardBuilder.jar quizcardbuilder.QuizCardBuilder quizcardbuilder/*.class
+cd -
