@@ -1,16 +1,86 @@
 package quizcardbuilder;
 
+import java.awt.*;
 import java.io.*;
+import java.util.*;
+import javax.swing.*;
 
 public class QuizCardBuilder {
+    private ArrayList<QuizCard> cardList = new ArrayList<>();
+    private JTextArea question;
+    private JTextArea answer;
+    private JFrame frame;
+
     public static void main(String[] args) {
-        QuizCardBuilder builder = new QuizCardBuilder();
-        builder.go();
+        new QuizCardBuilder().go();
     }
 
     public void go() {
-        System.out.println("QuizCardBuilder");
-        // build and display gui
+        frame = new JFrame("Quiz Card Builder");
+
+        var mainPanel = new JPanel();
+        var headingFont = new Font(
+            Font.SANS_SERIF,
+            Font.BOLD,
+            20 /* px */
+        );
+
+        question = createTextArea(headingFont);
+        var qScroller = createScroller(question);
+
+        answer = createTextArea(headingFont);
+        var aScroller = createScroller(answer);
+
+        mainPanel.add(new JLabel("Question:"));
+        mainPanel.add(qScroller);
+        mainPanel.add(new JLabel("Answer:"));
+        mainPanel.add(aScroller);
+
+        var nextButton = new JButton("Next Card");
+        nextButton.addActionListener(_e -> nextCard());
+        mainPanel.add(nextButton);
+
+        var menuBar = new JMenuBar();
+        var fileMenu = new JMenu("File");
+
+        var newMenuItem = new JMenuItem("New");
+        newMenuItem.addActionListener(_e -> clearAll());
+
+        var saveMenuItem = new JMenuItem("Save");
+        saveMenuItem.addActionListener(_e -> saveCard());
+
+        fileMenu.add(newMenuItem);
+        fileMenu.add(saveMenuItem);
+        menuBar.add(fileMenu);
+        frame.setJMenuBar(menuBar);
+
+        frame.getContentPane().add(
+            BorderLayout.CENTER,
+            mainPanel
+        );
+        frame.setSize(500 /* px */, 600 /* px */);
+        frame.setVisible(true);
+    }
+
+    private JScrollPane createScroller(JTextArea textArea) {
+        var scroller = new JScrollPane(textArea);
+
+        scroller.setVerticalScrollBarPolicy(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
+        );
+        scroller.setHorizontalScrollBarPolicy(
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+
+        return scroller;
+    }
+
+    private JTextArea createTextArea(Font font) {
+        var textArea = new JTextArea(6 /* rows */, 20 /* cols */);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(font);
+        return textArea;
     }
 
     private void nextCard() {
@@ -21,6 +91,10 @@ public class QuizCardBuilder {
     private void saveCard() {
         // bring up a file dialog box
         // let the user name and save the set
+    }
+
+    private void clearAll() {
+
     }
 
     private void saveFile(File file) {
