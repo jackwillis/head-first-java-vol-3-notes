@@ -12,8 +12,12 @@
     <property name="jar.name_quizcardbuilder" value="QuizCardBuilder.jar"/>
     <property name="main.class_quizcardbuilder" value="quizcardbuilder.QuizCardBuilder"/>
 
+    <!-- Properties for quizcardplayer package -->
+    <property name="jar.name_quizcardplayer" value="QuizCardPlayer.jar"/>
+    <property name="main.class_quizcardplayer" value="quizcardplayer.QuizCardPlayer"/>
+
     <!-- Default build target -->
-    <target name="build" depends="clean,jar_quizcardbuilder"/>
+    <target name="build" depends="clean,jar_quizcardbuilder,jar_quizcardplayer"/>
 
     <!-- Initialize directory structure -->
     <target name="init">
@@ -42,6 +46,25 @@
     <!-- Run the quiz card builder -->
     <target name="run_quizcardbuilder" depends="jar_quizcardbuilder">
         <java jar="${jar.dir}/${jar.name_quizcardbuilder}" fork="true"/>
+    </target>
+
+    <!-- Compile quiz card player -->
+    <target name="compile_quizcardplayer" depends="init">
+        <javac srcdir="${src.dir}/quizcardplayer" destdir="${classes.dir}" includeantruntime="false"/>
+    </target>
+
+    <!-- Build the JAR for the quiz card player -->
+    <target name="jar_quizcardplayer" depends="compile_quizcardplayer">
+        <jar destfile="${jar.dir}/${jar.name_quizcardplayer}" basedir="${classes.dir}" includes="**/*.class">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class_quizcardplayer}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Run the quiz card player -->
+    <target name="run_quizcardplayer" depends="jar_quizcardplayer">
+        <java jar="${jar.dir}/${jar.name_quizcardplayer}" fork="true"/>
     </target>
 
 </project>
