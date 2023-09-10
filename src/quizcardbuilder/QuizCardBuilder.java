@@ -60,6 +60,7 @@ public class QuizCardBuilder {
         );
         frame.setSize(500 /* px */, 600 /* px */);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private JScrollPane createScroller(JTextArea textArea) {
