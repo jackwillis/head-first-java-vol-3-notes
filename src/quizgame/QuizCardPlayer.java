@@ -20,6 +20,51 @@ public class QuizCardPlayer {
 
     public void go() {
         // build and display gui
+
+        frame = new JFrame("Quiz Card Player");
+        var mainPanel = new JPanel();
+
+        var headingFont = new Font(
+            Font.SANS_SERIF,
+            Font.BOLD,
+            20 /* px */
+        );
+
+        display = new JTextArea(10 /* rows */, 20 /* cols */);
+        display.setFont(headingFont);
+        display.setLineWrap(true);
+        display.setEditable(false);
+
+        var scroller = new JScrollPane(display);
+        scroller.setVerticalScrollBarPolicy(
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS
+        );
+        scroller.setHorizontalScrollBarPolicy(
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+        mainPanel.add(scroller);
+
+        nextButton = new JButton("Show Question");
+        nextButton.addActionListener(_e -> nextCard());
+        mainPanel.add(nextButton);
+
+        var menuBar = new JMenuBar();
+        var fileMenu = new JMenu("File");
+
+        var loadMenuItem = new JMenuItem("Load Card Set");
+        loadMenuItem.addActionListener(_e -> open());
+
+        fileMenu.add(loadMenuItem);
+        menuBar.add(fileMenu);
+        frame.setJMenuBar(menuBar);
+
+        frame.getContentPane().add(
+            BorderLayout.CENTER,
+            mainPanel
+        );
+        frame.setSize(500 /* px */, 400 /* px */);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void nextCard() {
