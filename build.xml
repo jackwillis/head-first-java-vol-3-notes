@@ -12,6 +12,9 @@
     <property name="jar.name_quizcardbuilder" value="QuizCardBuilder.jar"/>
     <property name="main.class_quizcardbuilder" value="quizcardbuilder.QuizCardBuilder"/>
 
+    <!-- Default build target -->
+    <target name="build" depends="clean,jar_quizcardbuilder"/>
+
     <!-- Initialize directory structure -->
     <target name="init">
         <mkdir dir="${classes.dir}"/>
@@ -36,10 +39,7 @@
         </jar>
     </target>
 
-    <!-- Default build target -->
-    <target name="build" depends="clean,jar_quizcardbuilder"/>
-
-    <!-- Run the application -->
+    <!-- Run the quiz card builder -->
     <target name="run_quizcardbuilder" depends="jar_quizcardbuilder">
         <java jar="${jar.dir}/${jar.name_quizcardbuilder}" fork="true"/>
     </target>
