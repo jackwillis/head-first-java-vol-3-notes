@@ -16,8 +16,14 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <target name="compile" description="Compile the quizgame package" depends="init">
+    <target name="compile" description="Compile all packages" depends="compile-quizgame,compile-drummachine"/>
+
+    <target name="compile-quizgame" description="Compile the quizgame package" depends="init">
         <javac srcdir="${src.dir}/quizgame" destdir="${classes.dir}" includeantruntime="false"/>
+    </target>
+
+    <target name="compile-drummachine" description="Compile the drummachine package" depends="init">
+        <javac srcdir="${src.dir}/drummachine" destdir="${classes.dir}" includeantruntime="false"/>
     </target>
 
     <!-- Create individual JAR files -->
@@ -37,21 +43,28 @@
 
     <!-- Targets to build and run each app -->
 
-    <target name="build-quizcardbuilder" description="Build the Quiz Card Builder app" depends="clean,compile">
+    <target name="build-quizcardbuilder" description="Build the Quiz Card Builder app" depends="clean,compile-quizgame">
         <create-jar projectname="quizgame" classname="QuizCardBuilder" jarname="QuizCardBuilder"/>
     </target>
     <target name="run-quizcardbuilder" description="Run the Quiz Card Builder app" depends="build-quizcardbuilder">
         <java jar="${jar.dir}/QuizCardBuilder.jar" fork="true"/>
     </target>
 
-    <target name="build-quizcardplayer" description="Build the Quiz Card Player app" depends="clean,compile">
+    <target name="build-quizcardplayer" description="Build the Quiz Card Player app" depends="clean,compile-quizgame">
         <create-jar projectname="quizgame" classname="QuizCardPlayer" jarname="QuizCardPlayer"/>
     </target>
     <target name="run-quizcardplayer" description="Run the Quiz Card Builder app" depends="build-quizcardplayer">
         <java jar="${jar.dir}/QuizCardPlayer.jar" fork="true"/>
     </target>
 
-    <!-- Default build target to build both JARs -->
+    <target name="build-minimusicplayer" description="Build the Mini Music Player app" depends="clean,compile-drummachine">
+        <create-jar projectname="drummachine" classname="MiniMusicPlayer" jarname="MiniMusicPlayer"/>
+    </target>
+    <target name="run-minimusicplayer" description="Run the Mini Music Player app" depends="build-minimusicplayer">
+        <java jar="${jar.dir}/MiniMusicPlayer.jar" fork="true"/>
+    </target>
+
+    <!-- Default build target to build all JARs -->
     <target name="build" description="Build everything" depends="build-quizcardbuilder,build-quizcardplayer"/>
 
     <!-- Help message -->
