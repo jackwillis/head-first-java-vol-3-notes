@@ -65,7 +65,7 @@
     </target>
 
     <!-- Default build target to build all JARs -->
-    <target name="build" description="Build everything" depends="build-quizcardbuilder,build-quizcardplayer"/>
+    <target name="build" description="Build everything" depends="build-quizcardbuilder,build-quizcardplayer,build-minimusicplayer"/>
 
     <!-- Help message -->
     <target name="help" description="Display available tasks">
