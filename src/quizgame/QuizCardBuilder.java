@@ -129,10 +129,9 @@ public class QuizCardBuilder {
         // each one out to a text file in a parseable way
         // (in other words, with clear separations between parts)
 
-        BufferedWriter writer = null;
-        try {
-            writer = new BufferedWriter(new FileWriter(file));
-
+        try (
+            var writer = new BufferedWriter(new FileWriter(file))
+        ) {
             for (var card : cardList) {
                 writer.write(card.getQuestion() + "/");
                 writer.write(card.getAnswer() + "\n");
@@ -143,15 +142,6 @@ public class QuizCardBuilder {
                 "Couldn't write the cardList: " +
                 exception.getMessage()
             );
-        } finally {
-            try {
-                writer.close();
-            } catch (Exception exception) {
-                System.err.println(
-                    "Couldn't close writer: " +
-                    exception.getMessage()
-                );
-            }
         }
     }
 }
